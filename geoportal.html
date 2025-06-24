@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Hola Mundo con Geoportal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Estilos de Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-o9N1j7kG2Ff0zqBPCk+cHRjXQqS+DQYxF1jzv+v6RKM=" crossorigin=""/>
+    
+    <!-- Estilos opcionales -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 20px 0;
+        }
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>¡Hola Mundo desde un Geoportal!</h1>
+    <div id="map"></div>
+
+    <!-- Scripts de Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-pLb0SjFZQwbTrwrK4MG51F6aDE5sLeBu7K6pcAkGg0M=" crossorigin=""></script>
+
+    <script>
+        // Inicializa el mapa
+        var map = L.map('map').setView([-0.22985, -78.52495], 6); // Coordenadas de Ecuador, ajustables
+
+        // Añade una capa base (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Puedes agregar un marcador
+        L.marker([-0.22985, -78.52495]).addTo(map)
+            .bindPopup('¡Hola desde Quito!')
+            .openPopup();
+    </script>
+
+</body>
+</html>
