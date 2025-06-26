@@ -1,73 +1,81 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Solicitud de Citas - Geoportal</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Solicitud de Citas - Geoportal Quito</title>
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+    }
 
-        h1 {
-            text-align: center;
-            color: #333;
-        }
+    h1 {
+        text-align: center;
+        color: #333;
+    }
 
-        form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
+    form {
+        max-width: 700px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
 
-        label {
-            display: block;
-            margin-top: 15px;
-            font-weight: bold;
-        }
+    label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+    }
 
-        input[type="text"],
-        input[type="email"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
+    input[type="text"],
+    input[type="email"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
 
-        button {
-            margin-top: 20px;
-            padding: 12px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+    #map {
+        height: 400px;
+        margin-top: 15px;
+        border-radius: 4px;
+    }
 
-        button:hover {
-            background-color: #0056b3;
-        }
+    button {
+        margin-top: 20px;
+        padding: 12px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
 
-        .confirmation {
-            margin-top: 20px;
-            text-align: center;
-            color: green;
-            display: none;
-        }
-    </style>
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .confirmation {
+        margin-top: 20px;
+        text-align: center;
+        color: green;
+        display: none;
+    }
+</style>
 </head>
 <body>
 
-<h1>Solicitar Cita - Regularización de Áreas</h1>
+<h1>Solicitar Cita - Regularización de Áreas en Quito</h1>
 
 <form id="citaForm">
     <label for="numeroTramite">Número de Trámite:</label>
@@ -82,6 +90,13 @@
     <label for="correo">Correo Personal:</label>
     <input type="email" id="correo" name="correo" required />
 
+    <label>Ubicación del Predio en el Mapa:</label>
+    <div id="map"></div>
+
+    <!-- Campo oculto para guardar latitud y longitud -->
+    <input type="hidden" id="latitud" name="latitud" />
+    <input type="hidden" id="longitud" name="longitud" />
+
     <button type="submit">Enviar Solicitud</button>
 </form>
 
@@ -89,20 +104,28 @@
     ¡Su solicitud ha sido enviada correctamente!
 </div>
 
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-    document.getElementById('citaForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+    // Inicializar el mapa centrado en Quito
+    var map = L.map('map').setView([-0.1807, -78.4678], 13); // Quito, Ecuador
 
-        // Aquí puedes agregar lógica para enviar los datos a un servidor
-        // por ejemplo, usando fetch() para enviar los datos a una API.
+    // Añadir capa de OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
 
-        // Mostrar mensaje de confirmación
-        document.getElementById('confirmationMessage').style.display = 'block';
+    // Variable para marcar el punto
+    var marker;
 
-        // Opcional: limpiar el formulario después de enviar
-        document.getElementById('citaForm').reset();
-    });
-</script>
+    // Función para crear o mover el marcador
+    function onMapClick(e) {
+        if (marker) {
+            marker.setLatLng(e.latlng);
+        } else {
+            marker = L.marker(e.latlng).addTo(map);
+        }
+        // Guardar las coordenadas en los campos ocultos
+        document.getElementById('latitud').value = e.latlng.lat;
+        document.getElementById('longitud').value = e.latlng.lng;
 
-</body>
-</html>
