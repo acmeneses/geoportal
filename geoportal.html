@@ -1,55 +1,108 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Hola Mundo con Geoportal</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Estilos de Leaflet -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-o9N1j7kG2Ff0zqBPCk+cHRjXQqS+DQYxF1jzv+v6RKM=" crossorigin=""/>
-    
-    <!-- Estilos opcionales -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solicitud de Citas - Geoportal</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
-            padding: 0;
-            text-align: center;
+            padding: 20px;
         }
+
         h1 {
-            margin: 20px 0;
+            text-align: center;
+            color: #333;
         }
-        #map {
-            height: 500px;
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"] {
             width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .confirmation {
+            margin-top: 20px;
+            text-align: center;
+            color: green;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <h1>¡Hola Mundo desde un Geoportal!</h1>
-    <div id="map"></div>
+<h1>Solicitar Cita - Regularización de Áreas</h1>
 
-    <!-- Scripts de Leaflet -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-pLb0SjFZQwbTrwrK4MG51F6aDE5sLeBu7K6pcAkGg0M=" crossorigin=""></script>
+<form id="citaForm">
+    <label for="numeroTramite">Número de Trámite:</label>
+    <input type="text" id="numeroTramite" name="numeroTramite" required />
 
-    <script>
-        // Inicializa el mapa
-        var map = L.map('map').setView([-0.22985, -78.52495], 6); // Coordenadas de Ecuador, ajustables
+    <label for="numeroPredio">Número de Predio:</label>
+    <input type="text" id="numeroPredio" name="numeroPredio" required />
 
-        // Añade una capa base (OpenStreetMap)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
+    <label for="ubicacionPredio">Ubicación del Predio:</label>
+    <input type="text" id="ubicacionPredio" name="ubicacionPredio" required />
 
-        // Puedes agregar un marcador
-        L.marker([-0.22985, -78.52495]).addTo(map)
-            .bindPopup('¡Hola desde Quito!')
-            .openPopup();
-    </script>
+    <label for="correo">Correo Personal:</label>
+    <input type="email" id="correo" name="correo" required />
+
+    <button type="submit">Enviar Solicitud</button>
+</form>
+
+<div class="confirmation" id="confirmationMessage">
+    ¡Su solicitud ha sido enviada correctamente!
+</div>
+
+<script>
+    document.getElementById('citaForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Aquí puedes agregar lógica para enviar los datos a un servidor
+        // por ejemplo, usando fetch() para enviar los datos a una API.
+
+        // Mostrar mensaje de confirmación
+        document.getElementById('confirmationMessage').style.display = 'block';
+
+        // Opcional: limpiar el formulario después de enviar
+        document.getElementById('citaForm').reset();
+    });
+</script>
 
 </body>
 </html>
